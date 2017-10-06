@@ -3,9 +3,10 @@
 
 The file twitter_sentiment.py uses python's tweepy library to search
 twitter for a key word, and then uses python's textblob library to rank
-the tweet's polarity and subjectivity. Laslty, matplotlib is used to create
+the tweet's polarity and subjectivity. Next, matplotlib is used to create
 pie chart based on the positivity, negativity, and neutrality of the tweets
-returned by the search word.
+returned by the search word. Lastly, polarity, subjectibity, and the tweet
+that textblob analyzes are stored in a csv file.
 
 
 ## How to use the program
