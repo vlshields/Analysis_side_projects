@@ -26,7 +26,7 @@ def get_sentiment(tweets):
 	    polarity.append(float(analysis.sentiment.polarity))
 	    subjectivity.append(float(analysis.sentiment.subjectivity))
 	return polarity, subjectivity
-#Lists to store the results of rank_sentiment function
+
 
 
 def rank_sentiment(sentiment_list):
