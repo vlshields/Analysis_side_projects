@@ -7,10 +7,10 @@ from matplotlib import style
 style.use('ggplot')
 
 
-consumer_key = 	'rJXl87HZOz8KgQPlwwWNwkIUe'
-consumer_secret = '5hztIcEkN6R3ViLCFFQdnGM5A8VPrhePmqwUVWOhGH7WKcQ1V2'
-access_token = '868534704080801792-lpqGdmF481ELRnGRhdYT2YD6y3hbnAl'
-access_token_secret = 'kvwBqWefpWyIAVESyEH8QmeefqxxXuEAqInuKSbeNcd7J'
+consumer_key = 	''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
 
 # lists to store sentiment analysis results
 
