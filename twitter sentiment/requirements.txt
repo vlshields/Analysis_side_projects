@@ -1,0 +1,6 @@
+tweepy
+textblob
+matplotlib
+numpy
+csv
+
