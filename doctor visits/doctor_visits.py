@@ -9,6 +9,7 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
+from datetime import datetime
 
 #read the data
 doctors = pd.read_csv('doctor.csv')
@@ -22,16 +23,41 @@ def percent_show_up(series):
  
     print('percent show up: {}'.format(count / doctors.shape[0]))
 
-# compare this to the test set accuracy
-percent_show_up(doctors['No-show'])
+def clean_dates_T(column):
+    return column.replace("T",":")
 
-# Separate the data
-y = doctors['No-show']
+def clean_dates_Z(column):
+    return column.replace("Z","")
 
-X = doctors[['Age', 'Scholarship', 'Hipertension', 'Diabetes', 'Alcoholism', 'Gender', 'Handcap', 
-                        'SMS_received']]
-# Check nulls
-print(y.isnull().sum())
+def get_date(column):
+    new_time = datetime.strptime(column, '%Y-%m-%d:%H:%M:%S')
+    return new_time
+
+def get_hour(date):
+    new_date = date.hour
+    return new_date
+
+
+# Clean dates
+doctors['ScheduledDay'] = doctors['ScheduledDay'].apply(clean_dates_T)
+doctors['ScheduledDay'] = doctors['ScheduledDay'].apply(clean_dates_Z)
+doctors['new_date'] = doctors['ScheduledDay'].apply(get_date)
+doctors['hour_scheduled'] = doctors['new_date'].apply(get_hour)
+
+
+def split_data(df):
+    """Separate the data"""
+    
+    y = df['No-show']
+
+    X = df[['Age', 'Scholarship', 'Hipertension', 'Diabetes', 'Alcoholism', 'Gender', 'Handcap', 
+                            'SMS_received','hour_scheduled']]
+    return X,y                        
+
+X, y = split_data(doctors)
+
+# check nulls
+print (y.isnull().sum())
 
 for feature in X:
     print("There are",X[feature].isnull().sum(),"missing values in",feature)
@@ -45,9 +71,14 @@ X['Gender'] = X['Gender'].apply(lambda x: d[x])
 d = {'No':0, 'Yes':1}
 y = y.apply(lambda x: d[x])
 
-# change to numpy arrays
-X = np.array(X)
-y = np.array(y)
+def arrays(x,y):
+    """change to numpy arrays"""
+    
+    x = np.array(x)
+    y = np.array(y)
+    return x,y
+
+X,y = arrays(X,y)
 
 # Split the data
 X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.3, random_state = 0)
@@ -86,6 +117,8 @@ print("Test-set score: {}".format(clf.score(X_test, y_test)))
 print(classification_report(y_test, pred_grid, target_names = ["Show", "No-show"]))
 print("Confusion matrix:\n{}".format(confusion))
 
+# compare this to the test set accuracy
+percent_show_up(doctors['No-show'])
 
 # Graph the confusion matrix
 
